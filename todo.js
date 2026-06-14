@@ -2,14 +2,13 @@ const todos = [];
 
 const nextTask = (task) => {
   const validText = typeof task === "string" && task.trim().length > 0;
-  console.log(validText);
+
   if (validText === false) {
     console.log("input can't be empty");
     return;
   } else {
     const todo = createTodos(task);
     addTodos(todo);
-    displayTodo(todos);
   }
 };
 
@@ -24,10 +23,39 @@ const addTodos = (todo) => {
   todos.push(todo);
 };
 
-const displayTodo = (todos) => {
-  console.log(todos);
+const completeTodo = (targetIndex) => {
+  todos[targetIndex].completed = true;
 };
 
-nextTask("   ");
-nextTask("learn javascript");
+const deleteTodos = (targetIndex) => {
+  todos.splice(targetIndex, 1);
+};
 
+const displayTodo = () => {
+  todos.forEach((element, index, array) => {
+    index = index + 1;
+    const status = element.completed;
+
+    let newStatus;
+    if (status === false) {
+      newStatus = "- Not Completed";
+    } else if (status === true) {
+      newStatus = "- Completed";
+    }
+    console.log(`${index + "."}`, element.title, newStatus);
+  });
+};
+
+// nextTask("   ");
+
+nextTask("learn javascript");
+nextTask("Build Todo App");
+nextTask("Build Todo1 App");
+nextTask("Build Todo2 App");
+nextTask("Build Todo3 App");
+completeTodo(0);
+completeTodo(1);
+deleteTodos(1);
+console.log(todos);
+console.log(todos.length);
+displayTodo();
