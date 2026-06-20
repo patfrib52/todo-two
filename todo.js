@@ -1,6 +1,12 @@
+const userInput = document.getElementById("userTask");
+const displayList = document.getElementById("displayGroup");
+
 const todos = [];
 
-const nextTask = (task) => {
+const addBtn = document.getElementById("btnAdd");
+addBtn.addEventListener("click", (event) => {
+  const task = userInput.value;
+
   const validText = typeof task === "string" && task.trim().length > 0;
 
   if (validText === false) {
@@ -9,8 +15,9 @@ const nextTask = (task) => {
   } else {
     const todo = createTodos(task);
     addTodos(todo);
+    displayTodo();
   }
-};
+});
 
 const createTodos = (title) => {
   return {
@@ -32,6 +39,9 @@ const deleteTodos = (targetIndex) => {
 };
 
 const displayTodo = () => {
+  console.clear();
+  displayList.innerHTML = "";
+
   todos.forEach((element, index, array) => {
     index = index + 1;
     const status = element.completed;
@@ -42,20 +52,9 @@ const displayTodo = () => {
     } else if (status === true) {
       newStatus = "- Completed";
     }
+    const newline = document.createElement("p");
     console.log(`${index + "."}`, element.title, newStatus);
+    newline.innerHTML = `${index + "."} ${element.title} ${newStatus}`;
+    displayList.appendChild(newline);
   });
 };
-
-// nextTask("   ");
-
-nextTask("learn javascript");
-nextTask("Build Todo App");
-nextTask("Build Todo1 App");
-nextTask("Build Todo2 App");
-nextTask("Build Todo3 App");
-completeTodo(0);
-completeTodo(1);
-deleteTodos(1);
-console.log(todos);
-console.log(todos.length);
-displayTodo();
