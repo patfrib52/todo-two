@@ -17,6 +17,7 @@ addBtn.addEventListener("click", (event) => {
     addTodos(todo);
     displayTodo();
   }
+  userInput.value = "";
 });
 
 const createTodos = (title) => {
@@ -45,7 +46,6 @@ const displayTodo = () => {
   displayList.innerHTML = "";
 
   todos.forEach((element, index) => {
-
     const container = document.createElement("div");
     const newTask = document.createElement("p");
 
@@ -57,27 +57,20 @@ const displayTodo = () => {
     });
 
     const checkBox = document.createElement("input");
+    checkBox.checked = element.completed;
     checkBox.type = "checkbox";
     checkBox.addEventListener("change", (event) => {
       const target = event.target;
       const state = target.checked ? true : false;
       todoStatus(index, state);
-      
     });
 
-    const status = element.completed;
-    
-    let newStatus;
-
-    if (status === false) {
-      newStatus = "- Not Completed";
-    } else if (status === true) {
-      newStatus = "- Completed";
+    if (element.completed) {
+      newTask.classList.add("completed");
     }
-    checkBox.checked = element.completed;
-    console.log(`${index + 1 + "."}`, element.title, newStatus);
-    newTask.innerHTML = `${index + 1 + "."} ${element.title} ${newStatus}`;
+    console.log(`${index + 1 + "."}`, element.title);
+    newTask.textContent = `${index + 1 + "."} ${element.title}`;
     displayList.appendChild(container);
     container.append(newTask, checkBox, deleteBtn);
-
-  })};
+  });
+};
