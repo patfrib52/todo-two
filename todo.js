@@ -34,16 +34,24 @@ const completeTodo = (targetIndex) => {
   todos[targetIndex].completed = true;
 };
 
-const deleteTodos = (targetIndex) => {
+const deleteTodo = (targetIndex) => {
   todos.splice(targetIndex, 1);
+  displayTodo();
 };
 
 const displayTodo = () => {
   console.clear();
   displayList.innerHTML = "";
+  todos.forEach((element, index) => {
+    const container = document.createElement("div");
+    const newTask = document.createElement("p");
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.dataset.id = index;
+    deleteBtn.addEventListener("click", () => {
+      deleteTodo(deleteBtn.dataset.id);
+    });
 
-  todos.forEach((element, index, array) => {
-    index = index + 1;
     const status = element.completed;
 
     let newStatus;
@@ -52,9 +60,9 @@ const displayTodo = () => {
     } else if (status === true) {
       newStatus = "- Completed";
     }
-    const newline = document.createElement("p");
-    console.log(`${index + "."}`, element.title, newStatus);
-    newline.innerHTML = `${index + "."} ${element.title} ${newStatus}`;
-    displayList.appendChild(newline);
+    console.log(`${index + 1 + "."}`, element.title, newStatus);
+    newTask.innerHTML = `${index + 1 + "."} ${element.title} ${newStatus}`;
+    displayList.appendChild(container);
+    container.append(newTask, deleteBtn);
   });
 };
