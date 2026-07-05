@@ -9,10 +9,29 @@
   </head>
   <body>
     <div class="input-group">
-      <input type="text" id="userTask" placeholder="Your Task Here" />
-
-      <button type="submit" id="btnAdd">Add</button>
+      <label for="userProjectInput">Project</label>
+      <input
+        type="text"
+        id="userProjectInput"
+        placeholder="Your Project Here"
+      />
+      <button type="submit" id="addProjectBtn">Add Project</button>
     </div>
-    <div id="displayGroup"><p>Todo List</p></div>
+
+    <p>Projects</p>
+    <hr class="short-broken-line" />
+    <div id="display-projects"></div>
+
+    <p>Active Project:</p>
+    <hr class="short-broken-line" />
+    <div id="display-active-projects"></div>
+
+    <p>Todo</p>
+    <hr class="short-broken-line" />
+    <div id="display-todo"></div>
+
+    <p>Add Todo</p>
+    <hr class="short-broken-line" />
+    <div id="display-todo-input"></div>
   </body>
 </html>

@@ -7,3 +7,17 @@
   gap: 10px;
   align-items: center;
 }
+
+.short-broken-line {
+  border: none;
+  border-top: 2px dashed #000000; /* Use 'dashed' or 'dotted' */
+  width: 100px; /* Controls the line length */
+  margin-left: 0;
+}
+
+.button-stack {
+  display: flex;
+  flex-direction: column; /* Stacks the items vertically */
+  gap: 10px; /* Adds spacing between buttons */
+  width: 200px; /* Optional: Sets a specific width for the stack */
+}

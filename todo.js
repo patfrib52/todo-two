@@ -1,76 +1,96 @@
-const userInput = document.getElementById("userTask");
-const displayList = document.getElementById("displayGroup");
+const displayProjects = document.getElementById("display-projects");
+const userProject = document.getElementById("userProjectInput");
+const activeProject = document.querySelector("#display-active-projects");
+const addProjectBtn = document.getElementById("addProjectBtn");
+const listTodo = document.querySelector("#display-todo");
+const todoInput = document.createElement("input");
+const displayTodoInput = document.querySelector("#display-todo-input");
+const todoBtn = document.createElement("button");
+todoBtn.textContent = "Add Todo";
+let activeProjectIndex = null;
 
-const todos = [];
+const projects = [
+  {
+    name: "Default",
+    todo: [
+      {
+        title: ["Watch Tv", " Play Games"],
+      },
+    ],
+  },
+]; /* project array */
 
-const addBtn = document.getElementById("btnAdd");
-addBtn.addEventListener("click", (event) => {
-  const task = userInput.value;
-
-  const validText = typeof task === "string" && task.trim().length > 0;
-
+addProjectBtn.addEventListener("click", () => {
+  const projectName = userProject.value;
+  const validText =
+    typeof projectName === "string" && projectName.trim().length > 0;
   if (validText === false) {
     console.log("input can't be empty");
     return;
   } else {
-    const todo = createTodos(task);
-    addTodos(todo);
-    displayTodo();
+    addProject(createProject(projectName));
   }
-  userInput.value = "";
+  userProject.value = "";
+  displayProject();
 });
 
-const createTodos = (title) => {
+todoBtn.addEventListener("click", () => {
+  const newTodoInput = todoInput.value;
+  addTodos(activeProjectIndex, newTodoInput);
+  todoInput.value = "";
+});
+
+const createProject = (name) => {
   return {
-    title,
-    completed: false,
+    name,
+    todo: [],
   };
 };
 
-const addTodos = (todo) => {
-  todos.push(todo);
+const addProject = (project) => {
+  projects.push(project);
 };
 
+const addTodos = (activeProject, todos) => {
+  projects[activeProject].todo.push({ title: todos });
+  displayActiveProject();
+};
 const todoStatus = (targetIndex, state) => {
-  todos[targetIndex].completed = state;
-  displayTodo();
+  projects[targetIndex].completed = state;
+  displayProject(projects[activeProjectIndex].todo);
 };
 
 const deleteTodo = (targetIndex) => {
-  todos.splice(targetIndex, 1);
-  displayTodo();
+  projects.todo.splice(targetIndex, 1);
+  displayProject();
 };
 
-const displayTodo = () => {
+const displayProject = () => {
+  displayProjects.textContent = "";
   console.clear();
-  displayList.innerHTML = "";
-
-  todos.forEach((element, index) => {
-    const container = document.createElement("div");
-    const newTask = document.createElement("p");
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.dataset.id = index;
-    deleteBtn.addEventListener("click", () => {
-      deleteTodo(index);
+  projects.forEach((element, index) => {
+    const projectBtn = document.createElement("button");
+    projectBtn.textContent = element.name;
+    projectBtn.id = index;
+    projectBtn.classList = "project-btn";
+    displayProjects.append(index + 1, projectBtn);
+    projectBtn.addEventListener("click", () => {
+      activeProject.textContent = element.name;
+      activeProjectIndex = index;
+      displayTodoInput.append(todoInput, todoBtn);
+      displayActiveProject();
     });
-
-    const checkBox = document.createElement("input");
-    checkBox.checked = element.completed;
-    checkBox.type = "checkbox";
-    checkBox.addEventListener("change", (event) => {
-      const target = event.target;
-      const state = target.checked ? true : false;
-      todoStatus(index, state);
-    });
-
-    if (element.completed) {
-      newTask.classList.add("completed");
-    }
-    console.log(`${index + 1 + "."}`, element.title);
-    newTask.textContent = `${index + 1 + "."} ${element.title}`;
-    displayList.appendChild(container);
-    container.append(newTask, checkBox, deleteBtn);
   });
+};
+
+const displayActiveProject = () => {
+  listTodo.textContent = "";
+  let target = projects[activeProjectIndex].todo;
+  if (target.length === 0) {
+    listTodo.append("No Todo Yet");
+  } else {
+    target.forEach((todos) => {
+      listTodo.append(todos.title);
+    });
+  }
 };
