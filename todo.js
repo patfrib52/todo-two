@@ -2,8 +2,9 @@ const displayProjects = document.getElementById("display-projects");
 const userProject = document.getElementById("userProjectInput");
 const activeProject = document.querySelector("#display-active-projects");
 const addProjectBtn = document.getElementById("addProjectBtn");
-const listTodo = document.querySelector("#display-todo");
 const todoInput = document.createElement("input");
+const listTodo = document.querySelector("#display-todo");
+
 const displayTodoInput = document.querySelector("#display-todo-input");
 const todoBtn = document.createElement("button");
 todoBtn.textContent = "Add Todo";
@@ -14,7 +15,7 @@ const projects = [
     name: "Default",
     todo: [
       {
-        title: ["Watch Tv", " Play Games"],
+        title: ["Watch Tv"],
       },
     ],
   },
@@ -61,8 +62,8 @@ const todoStatus = (targetIndex, state) => {
 };
 
 const deleteTodo = (targetIndex) => {
-  projects.todo.splice(targetIndex, 1);
-  displayProject();
+  projects[activeProjectIndex].todo.splice(targetIndex, 1);
+  displayActiveProject();
 };
 
 const displayProject = () => {
@@ -89,8 +90,16 @@ const displayActiveProject = () => {
   if (target.length === 0) {
     listTodo.append("No Todo Yet");
   } else {
-    target.forEach((todos) => {
-      listTodo.append(todos.title);
+    target.forEach((todos, index) => {
+      const deleteBtn = document.createElement("button");
+      const container = document.createElement("div");
+      deleteBtn.textContent = "Delete todo";
+      deleteBtn.id = index;
+      deleteBtn.addEventListener("click", () => {
+        deleteTodo(index);
+      });
+      listTodo.append(container);
+      container.append(todos.title, deleteBtn);
     });
   }
 };
