@@ -2,7 +2,7 @@
   text-decoration: line-through;
 }
 
-#display-todo> div {
+#display-todo > div {
   display: flex;
   gap: 10px;
   align-items: center;

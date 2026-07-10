@@ -57,8 +57,9 @@ const addTodos = (activeProject, todos) => {
   displayActiveProject();
 };
 const todoStatus = (targetIndex, state) => {
-  projects[targetIndex].completed = state;
-  displayProject(projects[activeProjectIndex].todo);
+  projects[activeProjectIndex].todo[targetIndex].completed = state;
+  displayActiveProject();
+  console.log(projects);
 };
 
 const deleteTodo = (targetIndex) => {
@@ -98,8 +99,16 @@ const displayActiveProject = () => {
       deleteBtn.addEventListener("click", () => {
         deleteTodo(index);
       });
+      const completeCheckbox = document.createElement("input");
+      completeCheckbox.type = "checkbox";
+      completeCheckbox.checked = todos.completed;
+      completeCheckbox.addEventListener("click", () => {
+        todoStatus(index, completeCheckbox.checked);
+        console.log(todos.completed);
+      });
+
       listTodo.append(container);
-      container.append(todos.title, deleteBtn);
+      container.append(completeCheckbox, todos.title, deleteBtn);
     });
   }
 };
