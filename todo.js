@@ -74,7 +74,7 @@ const displayProject = () => {
     const projectBtn = document.createElement("button");
     projectBtn.textContent = element.name;
     projectBtn.id = index;
-    projectBtn.classList = "project-btn";
+    projectBtn.classList.add = "project-btn";
     displayProjects.append(index + 1, projectBtn);
     projectBtn.addEventListener("click", () => {
       activeProject.textContent = element.name;
@@ -95,11 +95,14 @@ const displayActiveProject = () => {
       const deleteBtn = document.createElement("button");
       const container = document.createElement("div");
       deleteBtn.textContent = "Delete todo";
+
       deleteBtn.id = index;
       deleteBtn.addEventListener("click", () => {
         deleteTodo(index);
       });
       const completeCheckbox = document.createElement("input");
+      const para = document.createElement("p");
+      para.textContent = todos.title;
       completeCheckbox.type = "checkbox";
       completeCheckbox.checked = todos.completed;
       completeCheckbox.addEventListener("click", () => {
@@ -107,8 +110,14 @@ const displayActiveProject = () => {
         console.log(todos.completed);
       });
 
+      if (todos.completed === true) {
+        para.classList.add("completed");
+      } else {
+        para.classList.remove("completed");
+      }
+
       listTodo.append(container);
-      container.append(completeCheckbox, todos.title, deleteBtn);
+      container.append(completeCheckbox, para, deleteBtn);
     });
   }
 };
