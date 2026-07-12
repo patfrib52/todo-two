@@ -1,3 +1,5 @@
+import { createProject, createTodo } from "./logic.js";
+import { addProject, projects } from "./logic.js";
 const displayProjects = document.getElementById("display-projects");
 const userProject = document.getElementById("userProjectInput");
 const activeProject = document.querySelector("#display-active-projects");
@@ -31,30 +33,6 @@ todoBtn.addEventListener("click", () => {
   console.log(projects);
 });
 
-const createProject = (name) => {
-  return {
-    name: name,
-    todo: [],
-  };
-};
-const defaultProject = createProject("Default");
-
-const addProject = (project) => {
-  projects.push(project);
-};
-
-const createTodo = (title, description, dueDate, priority) => {
-  return {
-    title,
-    description,
-    dueDate,
-    priority,
-    completed: false,
-  };
-};
-
-defaultProject.todo.push(createTodo("Watch Tv", "", "", ""));
-
 const addTodos = (activeProject, title, description, dueDate, priority) => {
   projects[activeProject].todo.push(
     createTodo(title, description, dueDate, priority),
@@ -66,15 +44,12 @@ const addTodos = (activeProject, title, description, dueDate, priority) => {
 const todoStatus = (targetIndex, state) => {
   projects[activeProjectIndex].todo[targetIndex].completed = state;
   displayActiveProject();
-  console.log(projects);
 };
 
 const deleteTodo = (targetIndex) => {
   projects[activeProjectIndex].todo.splice(targetIndex, 1);
   displayActiveProject();
 };
-
-const projects = [defaultProject]; /* project array */
 
 const displayProject = () => {
   displayProjects.textContent = "";
@@ -93,7 +68,6 @@ const displayProject = () => {
     });
   });
 };
-
 
 const displayActiveProject = () => {
   listTodo.textContent = "";
