@@ -94,6 +94,7 @@ const displayProject = () => {
   });
 };
 
+
 const displayActiveProject = () => {
   listTodo.textContent = "";
   let target = projects[activeProjectIndex].todo;
