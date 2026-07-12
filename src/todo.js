@@ -1,5 +1,10 @@
-import { createProject, createTodo } from "./logic.js";
-import { addProject, projects } from "./logic.js";
+import {
+  createProject,
+  createTodo,
+  addProject,
+  projects,
+  addTodos,
+} from "./logic.js";
 const displayProjects = document.getElementById("display-projects");
 const userProject = document.getElementById("userProjectInput");
 const activeProject = document.querySelector("#display-active-projects");
@@ -30,16 +35,9 @@ todoBtn.addEventListener("click", () => {
   const newTodoInput = todoInput.value;
   addTodos(activeProjectIndex, newTodoInput, "", "", "");
   todoInput.value = "";
+  displayActiveProject();
   console.log(projects);
 });
-
-const addTodos = (activeProject, title, description, dueDate, priority) => {
-  projects[activeProject].todo.push(
-    createTodo(title, description, dueDate, priority),
-  );
-
-  displayActiveProject();
-};
 
 const todoStatus = (targetIndex, state) => {
   projects[activeProjectIndex].todo[targetIndex].completed = state;

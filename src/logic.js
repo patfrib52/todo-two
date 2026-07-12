@@ -24,3 +24,15 @@ const defaultProject = createProject("Default");
 defaultProject.todo.push(createTodo("Watch Tv", "", "", ""));
 
 export const projects = [defaultProject]; /* project array */
+
+export const addTodos = (
+  activeProject,
+  title,
+  description,
+  dueDate,
+  priority,
+) => {
+  projects[activeProject].todo.push(
+    createTodo(title, description, dueDate, priority),
+  );
+};
