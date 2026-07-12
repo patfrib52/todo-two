@@ -10,17 +10,6 @@ const todoBtn = document.createElement("button");
 todoBtn.textContent = "Add Todo";
 let activeProjectIndex = null;
 
-const projects = [
-  {
-    name: "Default",
-    todo: [
-      {
-        title: ["Watch Tv"],
-      },
-    ],
-  },
-]; /* project array */
-
 addProjectBtn.addEventListener("click", () => {
   const projectName = userProject.value;
   const validText =
@@ -37,25 +26,43 @@ addProjectBtn.addEventListener("click", () => {
 
 todoBtn.addEventListener("click", () => {
   const newTodoInput = todoInput.value;
-  addTodos(activeProjectIndex, newTodoInput);
+  addTodos(activeProjectIndex, newTodoInput, "", "", "");
   todoInput.value = "";
+  console.log(projects);
 });
 
 const createProject = (name) => {
   return {
-    name,
+    name: name,
     todo: [],
   };
 };
+const defaultProject = createProject("Default");
 
 const addProject = (project) => {
   projects.push(project);
 };
 
-const addTodos = (activeProject, todos) => {
-  projects[activeProject].todo.push({ title: todos });
+const createTodo = (title, description, dueDate, priority) => {
+  return {
+    title,
+    description,
+    dueDate,
+    priority,
+    completed: false,
+  };
+};
+
+defaultProject.todo.push(createTodo("Watch Tv", "", "", ""));
+
+const addTodos = (activeProject, title, description, dueDate, priority) => {
+  projects[activeProject].todo.push(
+    createTodo(title, description, dueDate, priority),
+  );
+
   displayActiveProject();
 };
+
 const todoStatus = (targetIndex, state) => {
   projects[activeProjectIndex].todo[targetIndex].completed = state;
   displayActiveProject();
@@ -66,6 +73,8 @@ const deleteTodo = (targetIndex) => {
   projects[activeProjectIndex].todo.splice(targetIndex, 1);
   displayActiveProject();
 };
+
+const projects = [defaultProject]; /* project array */
 
 const displayProject = () => {
   displayProjects.textContent = "";
@@ -84,6 +93,7 @@ const displayProject = () => {
     });
   });
 };
+
 
 const displayActiveProject = () => {
   listTodo.textContent = "";
@@ -107,7 +117,7 @@ const displayActiveProject = () => {
       completeCheckbox.checked = todos.completed;
       completeCheckbox.addEventListener("click", () => {
         todoStatus(index, completeCheckbox.checked);
-        console.log(todos.completed);
+        console.log(completeCheckbox.checked);
       });
 
       if (todos.completed === true) {
