@@ -4,6 +4,8 @@ import {
   addProject,
   projects,
   addTodos,
+  deleteTodo,
+  todoStatus,
 } from "./logic.js";
 const displayProjects = document.getElementById("display-projects");
 const userProject = document.getElementById("userProjectInput");
@@ -15,7 +17,7 @@ const listTodo = document.querySelector("#display-todo");
 const displayTodoInput = document.querySelector("#display-todo-input");
 const todoBtn = document.createElement("button");
 todoBtn.textContent = "Add Todo";
-let activeProjectIndex = null;
+export let activeProjectIndex = null;
 
 addProjectBtn.addEventListener("click", () => {
   const projectName = userProject.value;
@@ -38,16 +40,6 @@ todoBtn.addEventListener("click", () => {
   displayActiveProject();
   console.log(projects);
 });
-
-const todoStatus = (targetIndex, state) => {
-  projects[activeProjectIndex].todo[targetIndex].completed = state;
-  displayActiveProject();
-};
-
-const deleteTodo = (targetIndex) => {
-  projects[activeProjectIndex].todo.splice(targetIndex, 1);
-  displayActiveProject();
-};
 
 const displayProject = () => {
   displayProjects.textContent = "";
@@ -76,12 +68,14 @@ const displayActiveProject = () => {
     target.forEach((todos, index) => {
       const deleteBtn = document.createElement("button");
       const container = document.createElement("div");
-      deleteBtn.textContent = "Delete todo";
 
+      deleteBtn.textContent = "Delete todo";
       deleteBtn.id = index;
       deleteBtn.addEventListener("click", () => {
         deleteTodo(index);
+        displayActiveProject();
       });
+
       const completeCheckbox = document.createElement("input");
       const para = document.createElement("p");
       para.textContent = todos.title;
@@ -89,7 +83,7 @@ const displayActiveProject = () => {
       completeCheckbox.checked = todos.completed;
       completeCheckbox.addEventListener("click", () => {
         todoStatus(index, completeCheckbox.checked);
-        console.log(completeCheckbox.checked);
+        displayActiveProject();
       });
 
       if (todos.completed === true) {
