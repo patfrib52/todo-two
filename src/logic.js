@@ -1,4 +1,8 @@
-import { activeProjectIndex } from "./todo.js";
+export let activeProjectIndex = null;
+
+export const setActiveProjectIndex = (index) => {
+  activeProjectIndex = index;
+};
 
 export const createProject = (name) => {
   return {

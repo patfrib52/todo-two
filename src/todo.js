@@ -6,6 +6,8 @@ import {
   addTodos,
   deleteTodo,
   todoStatus,
+  setActiveProjectIndex,
+  activeProjectIndex,
 } from "./logic.js";
 const displayProjects = document.getElementById("display-projects");
 const userProject = document.getElementById("userProjectInput");
@@ -17,7 +19,6 @@ const listTodo = document.querySelector("#display-todo");
 const displayTodoInput = document.querySelector("#display-todo-input");
 const todoBtn = document.createElement("button");
 todoBtn.textContent = "Add Todo";
-export let activeProjectIndex = null;
 
 addProjectBtn.addEventListener("click", () => {
   const projectName = userProject.value;
@@ -52,7 +53,7 @@ const displayProject = () => {
     displayProjects.append(index + 1, projectBtn);
     projectBtn.addEventListener("click", () => {
       activeProject.textContent = element.name;
-      activeProjectIndex = index;
+      setActiveProjectIndex(index);
       displayTodoInput.append(todoInput, todoBtn);
       displayActiveProject();
     });
@@ -62,6 +63,7 @@ const displayProject = () => {
 const displayActiveProject = () => {
   listTodo.textContent = "";
   let target = projects[activeProjectIndex].todo;
+  console.log(activeProjectIndex);
   if (target.length === 0) {
     listTodo.append("No Todo Yet");
   } else {
